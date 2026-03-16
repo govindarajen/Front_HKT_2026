@@ -1,0 +1,71 @@
+{
+
+    "french": "Français",
+    "english": "English",
+
+    "dashboard": "Tableau de bord",
+    "admin": "Admin",
+
+
+    "delete": "Supprimer",
+    "save": "Sauvegarder",
+    "edit": "Modifier",
+    "back": "Retour",
+    "cancel": "Annuler",
+    "cancelled": "Annulé",
+    "done": "Terminé",
+    "close": "Fermer",
+
+    "pending": "En attente",
+    "paid": "Payé",
+    "unpaid": "Impayé",
+
+    "welcomeText": "Bonjour",
+
+    "days": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+    "momentMonthsLong": "Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre",
+    "momentMonthsShort": "Janv._Févr._Mars_Avr._Mai_Juin_Juil._Août_Sept._Oct._Nov._Déc.",
+
+    "momentWeekDaysMomentLong": "Dimanche_Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi",
+    "momentWeekDaysMomentShort": "Dim._Lun._Mar._Mer._Jeu._Ven._Sam.",
+    "date": "Date",
+    "time": "Heure",
+    "day_short": "j",
+    "month_short": "m",
+    "year_short": "a",
+    "hour_short": "h",
+    "minute_short": "m",
+    "second_short": "s",
+
+    "dashboard_title": "Tableau de bord",
+    
+    "addEvent": "Nouveau",
+    "create": "Créer",
+    "editEvent": "Modifier l'événement",
+    "eventDate": "Date de l'évén.",
+    "noEvent": "Aucun événement",
+    "noEvents": "Aucun événement",
+
+
+    "authBannerText": "Connexion",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "connection": "Connexion",
+
+    "agenda": "Agenda",
+    "today": "Aujourd'hui",
+    "day": "Jour",
+    "month": "Mois",
+    "week": "Semaine",
+    "year": "Année",
+    "event": "Événement",
+    "noEventsInRange": "Aucun événement prévu",
+
+
+    "chooseProfession": "Choisissez une profession",
+    "medical": "Médical",
+    "other": "Autre"
+
+}

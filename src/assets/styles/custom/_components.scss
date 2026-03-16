@@ -1,0 +1,964 @@
+@use '../main.scss' as main;
+
+
+.card {
+    border-radius: 0 !important;
+    box-shadow: 0 0 0;
+    border-color: transparent !important;
+}
+
+
+.card-body {
+
+    &.bordered {
+        border: 1px solid main.$darkAbleGray;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px main.$darkAbleGray;
+    }
+}
+
+/* ------------------------------------ */
+
+.btn {
+    border-radius: 10px !important;
+    background-color: main.$secondaryColor !important;
+    border-color: main.$secondaryColor !important;
+    color: main.$black !important;
+    transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s, border-color ease-in-out 0.3s;
+
+    &:hover {
+        background-color: main.$tertiaryColor !important;
+        border-color: main.$tertiaryColor !important;
+        color: main.$white !important;
+        transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s, border-color ease-in-out 0.3s;
+    }
+
+    &.btn-secondary {
+        background-color: main.$primaryColor !important;
+        border-color: main.$primaryColor !important;
+        color: main.$white !important;
+        transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s, border-color ease-in-out 0.3s;
+
+        &:hover {
+            background-color: main.$primaryLightColor !important;
+            border-color: main.$primaryLightColor !important;
+            color: main.$black !important;
+            transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s, border-color ease-in-out 0.3s;
+        }
+    }
+}
+
+.spinnerAuth {
+    color: main.$white !important;
+}
+.highlight {
+    font-weight: 600;
+}
+.spacer {
+    width: 100%;
+    height: 2px;
+    border-radius: 10%;
+    background-color: main.$darkAbleGray;
+}
+
+/* ------------------------------ */
+
+.descriptionContainer {
+    height: 98px;
+}
+
+.formLabel {
+    font-weight: 600;
+}
+/* ------------------------------ tableList */
+
+.tableList {
+    width: 100%;
+    border: 1px solid main.$darkAbleGray;
+    border-radius: 10px !important;
+    background-color: main.$lightAbleGray;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    height: 100%;
+    
+    table {
+        thead {
+            .rounded-end {
+                border-top-right-radius: 9px !important;
+                border-bottom-right-radius: inherit !important;
+            }
+            .rounded-start {
+                border-top-left-radius: 9px !important;
+                border-bottom-left-radius: inherit !important;
+            }
+        }
+
+        th {
+            background-color: main.$secondaryColor;
+            font-weight: 700;
+            padding: 1rem 0.75rem;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        tbody {
+            .table-row {
+                width: 100%;
+                &:hover {
+                    td {
+                    background-color: rgba(182, 244, 255, 0.5) !important;
+                    vertical-align: middle;
+                    transition: all 0.25s ease;
+                    cursor: pointer;
+                    }
+                }
+            }
+        }
+        
+        
+    }
+    
+    .tablePageBtn {
+        background-color: main.$primaryColor !important;
+        border-color: main.$primaryColor !important;
+        border-radius: 50% !important;
+        color: main.$white !important;
+        width: 32px;
+        height: 32px;
+        transition: all 0.3s ease;
+        font-weight: 600;        
+        
+        &:hover {
+            background-color: main.$secondaryColor !important;
+            border-color: main.$secondaryColor !important;
+            color: main.$black !important;
+            transform: scale(1.15);
+            box-shadow: 0 2px 8px rgba(255, 195, 118, 0.4);
+        }
+        
+        &.activePage {
+            background-color: main.$tertiaryColor !important;
+            border-color: main.$tertiaryColor !important;
+            color: main.$black !important;
+            font-weight: 600;
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(255, 127, 80, 0.4);
+            &:hover {
+                background-color: main.$secondaryColor !important;
+                border-color: main.$secondaryColor !important;
+                color: main.$black !important;
+                transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s;
+            }
+        }
+    }
+}
+/* ------------------------------ */
+.dropdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    
+    .show {
+        width: 128px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        padding: 0.5em 0.8em;
+        border-radius: 10px;
+        
+    }
+    
+    .dropdown-item {
+        padding: 0.3em 1em;
+        border-radius: 10px;
+
+        &:hover {
+            background-color: main.$secondaryColor !important;
+            color: main.$black !important;
+            transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s;
+        }
+
+        &:active {
+            background-color: main.$secondaryColor !important;
+            color: main.$black !important;
+        }
+    }
+}
+
+/* ------------------------------ */
+#navbar {
+    background-color: main.$primaryColor ;
+
+
+    .navWelcome  {
+        color: white;
+        text-decoration: none !important;
+        margin-right: main.$marginSM;
+    }
+    .navUserName {
+        color: white;
+        font-size: 1em;
+        font-weight: 600;
+        text-decoration: none !important;
+        margin-right: main.$marginSM;
+    }
+    
+    .navbarTitle {
+        color: white;
+        font-size: 1em;
+        font-weight: 600;
+        text-decoration: none !important;
+    }
+    
+    .navLink {
+        min-width: 128px;
+        text-align: center;
+        margin: 0 main.$marginSM ;
+        text-decoration: none !important;
+        color: white;
+        cursor: pointer;
+        &:hover {
+            transition: color ease-in-out 0.3s;
+            color: main.$secondaryColor !important;
+        }
+        
+        &.active {
+            color: main.$tertiaryColor !important;
+            font-weight: 600;
+        }
+    }
+
+    .dropDownBtn {
+        background-color: main.$white;
+        padding: 10px 12px;    
+        border-radius: 50%;
+
+        
+        
+        &:hover {
+            background-color: main.$primaryLightColor;
+            transition: background-color ease-in-out 0.3s;
+        }
+        
+        .dropDown-Icon {
+            color: main.$tertiaryColor;
+            font-size: 1.3em;
+            &:hover {
+                font-weight: 600;
+            }
+            
+        }
+    }
+
+    .langdropDown {
+        height: 49px;
+        background-color: transparent;
+
+        &:hover {
+            background-color: main.$primaryLightColor;
+            transition: background-color ease-in-out 0.3s;
+        }
+        
+    }
+    .langdropDown-menu {
+        .dropdown-item {
+
+            .langdropDown-flag {
+                margin-right: main.$marginXS;
+            }
+        }
+    }
+
+    
+    
+    
+    .hamburgerBtn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5em;
+        cursor: pointer;
+    }
+    
+    .mobileMenuOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(30, 30, 30, 0.45);
+        z-index: 1100;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: flex-start;
+        
+        .mobileMenu {
+            background: main.$primaryColor;
+            width: 80vw;
+            max-width: 320px;
+            margin-top: 84px;
+            margin-right: 6px;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 2em 1em;
+        
+            .navLink {
+                margin: 0 !important;
+                font-size: 1.1em;
+                text-align: left;
+            }
+        } 
+        
+        .mobileProfileDropDown {
+            display: flex;
+            justify-content: flex-start;
+        }
+    }
+
+}
+
+/* ----------------------- login */
+
+
+#authenticationPage {
+    background-color: main.$primaryColor;
+    color: white;
+    
+    .loginForm {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 45%;
+        .inputGroupForm {
+            width: 100%;
+            padding: main.$marginSM;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            
+            .inputForm {
+                width: 100%;
+                border-radius: 10px;
+                border: 1px solid main.$secondaryColor;
+                background-color: white;
+                color: black;
+                padding: main.$marginXS;
+            }
+            
+            
+        }
+        .submitBtn {
+            width: 60%;
+            margin-top: main.$marginSM;
+            background-color: main.$secondaryColor;
+            color: black;
+            border-radius: 10px;
+            border: none;
+            padding: main.$marginXS;
+            font-weight: 600;
+            cursor: pointer;
+            
+            &:hover {
+                background-color: main.$tertiaryColor;
+                color: white;
+                transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    #authenticationPage {
+        .loginForm {
+            width: 100%;
+        }
+    }
+}
+/* ----------------------------- */
+
+.rbc-day-bg {
+    &:hover {
+        cursor: pointer;
+        background-color: rgba(182, 244, 255, 0.5) !important;
+    }
+}
+
+.rbc-toolbar-label {
+    border-radius: 10px;
+    background-color: main.$secondaryColor !important;
+    font-size: 1.2em !important;
+    font-weight: 600;
+    color: main.$primaryColor !important;
+}
+
+.rbc-btn-group {
+    button {
+        border-radius: 10px !important;
+        background-color: main.$lightAbleGray !important;
+        box-shadow: none !important;
+        margin: 0.3em 0.2em !important;
+        
+        
+        &:hover {
+            background-color: main.$darkAbleGray !important;
+            color: black !important;
+            transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s;
+        }
+    }
+}
+
+.editEventModalBody {
+    flex-direction: row;
+}
+
+@media (max-width: 768px) {
+    .editEventModalBody {
+        overflow: auto;
+        flex-direction: column;
+
+        .formContainer {
+            width: 100% !important;
+        }
+
+        .quoteContainer {
+            width: 100% !important;
+            margin-top: main.$marginSM !important;
+        }
+
+    }
+    
+}
+
+/* ----------------------------- */
+
+.form-select {
+    border-radius: 10px !important;
+    background-color: main.$lightAbleGray !important;
+    box-shadow: none !important;
+    
+    &:hover {
+        border-color: main.$primaryColor !important;
+    }
+    
+    option {
+        background-color: main.$lightAbleGray !important;
+    }
+}
+
+.form-control {
+    border-radius: 10px !important;
+    border: 1px solid main.$darkAbleGray !important;
+    background-color: main.$lightAbleGray !important;
+    box-shadow: none !important;
+    transition: all 0.3s ease;
+    border: 1px solid main.$darkAbleGray;
+    
+    &:hover {
+        border-color: main.$primaryColor !important;
+    }
+    
+    &.disabledInput {
+        background-color: main.$darkAbleGray !important;
+        cursor: not-allowed !important;
+    }
+}
+.react-datepicker-wrapper {
+    width: 100%;
+}
+.react-select__control {
+    border-radius: 10px !important;
+    background-color: main.$lightAbleGray !important;
+    box-shadow: none !important;
+    position: relative;
+    z-index: 10;
+    
+    &:hover {
+        border-color: main.$primaryColor !important;
+    }
+
+    &--is-focused,
+    &--menu-is-open {
+        z-index: 100 !important;
+    }
+}
+
+.react-select__menu {
+    background-color: main.$lightAbleGray !important;
+    border-radius: 10px !important;
+    padding: main.$marginXS !important;
+    z-index: 1000 !important;
+    position: absolute !important;
+}
+
+.react-select__option {
+    border-radius: 10px !important;
+    &:hover {
+        border-radius: 10px !important;
+        background-color: rgba(75, 115, 248, 0.5) !important;
+    }
+}
+
+
+/* ----------------- */
+
+
+.customerCard {
+    background-color: main.$lightAbleGray !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: main.$marginSM;
+    height: 300px !important;
+    width: 350px !important;
+    cursor: pointer;
+
+    p {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+    .customerIconContainer {
+
+        border-radius: 50%;
+        width: 64px;
+        height: 64px;
+        background-color: main.$primaryColor;
+
+        .customerIcon {
+            font-size: 2em;
+            color: main.$tertiaryColor;
+            margin-bottom: main.$marginXS;
+        }
+    }
+
+
+    .customerCardBody {
+        padding: main.$marginSM;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: flex-start;
+        height: 100%;
+
+        .name {
+            font-size: 1.2em;
+            font-weight: 600;
+            text-align: center;
+            color: main.$primaryColor;
+            justify-self: center;
+            margin-bottom: main.$marginXS;
+        }
+
+        .label {
+            font-weight: 600;
+            color: main.$primaryColor;
+        }
+
+        .value {
+            color: main.$primaryLightColor;
+        }
+    }
+
+    &:hover {
+        background-color: main.$secondaryColor !important;
+        color: main.$black !important;
+        transition: background-color ease-in-out 0.3s, color ease-in-out 0.3s;
+    }
+    
+}
+
+
+
+/* ------------------------------------------------------------------------ */
+/* users card */
+
+$primaryUser1: #2a9d8f;
+$secondaryUser1: #e8e8e4;
+
+$primaryUser2: #e76f51;
+
+
+.userCardContainer {
+    background-color: main.$lightAbleGray ;
+
+    &.user_1 {
+        background-color: $secondaryUser1;
+    }
+
+    .profileImage {
+        border-radius: 3%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    }
+
+    .url {
+        text-decoration: none !important;
+        color: black;
+        transition: color ease-in-out 0.3s;
+        &:hover {
+            transition: color ease-in-out 0.3s;
+            text-decoration: underline;
+            color: main.$primaryColor !important;
+        }
+        
+        .doctorLib {
+            font-family: cursive;
+        }
+        
+        .urlIcon {
+            font-size: 1.6em;
+            transition: color ease-in-out 0.3s;
+            &:hover {
+                transition: color ease-in-out 0.3s;
+                color: main.$primaryColor !important;
+            }
+        }
+    }
+
+    
+    .header {
+        background-color: main.$primaryColor ;
+        height: 288px;
+        color: main.$white ;
+        
+        &.user_1 {
+            background-color: $primaryUser1;
+        }
+        
+        .title {
+            font-size: 3.5em;
+            text-wrap: wrap;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: main.$marginXS;
+            font-family: 'Comic Sans MS', 'Nunito', 'Quicksand', sans-serif;
+        }
+        
+        .subtitle {
+            font-size: 2.8em;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: main.$marginXS;
+        }
+        
+        .description {
+            font-size: 1em;
+            font-weight: 400;
+            margin-bottom: main.$marginSM;
+            text-align: center;
+        }
+    }
+    .aboutLocation {
+        height: 288px;
+        font-size: 1.2em;
+        cursor: pointer;
+        
+        .locationText {
+            text-decoration: underline;
+        }
+
+        p:hover {
+            color: main.$primaryColor;
+            transition: color ease-in-out 0.3s;
+        }
+        
+        &.user_1 {
+            background-color: $secondaryUser1;
+        }
+        
+        .locationIcon {
+            font-size: 2.5em;
+        }
+
+        
+    }
+    .aboutAvailability {
+        height: 288px;
+        font-size: 1.2em;
+        
+        &.user_1 {
+            background-color: $secondaryUser1;
+        }
+        
+        .locationIcon {
+            font-size: 2.5em;
+        }
+
+        
+    }
+
+    .aboutUser {
+        .aboutText {
+            font-weight: 400;
+            text-align: center;
+            margin: main.$marginSM auto;
+            width: 80%;
+        }
+    }
+
+    .aboutConsultation {
+        min-height: 600px;
+        background-color: main.$primaryColor ;
+        color: main.$white ;
+
+        &.user_1 {
+            background-color: $primaryUser1;
+        }
+        
+        .card {
+            border-radius: 10px !important;
+            min-height: 500px;
+
+            h3 {
+                font-family: 'Comic Sans MS', 'Nunito', 'Quicksand', sans-serif;
+            }
+
+            .card-footer {
+                border-top: transparent !important;
+                background-color: transparent !important;
+                font-size: 3em;
+            }
+        }
+        
+    }
+
+    .footerPublicPage {
+        font-size: 0.7em;
+        color: main.$darkAbleGray;
+
+        .webCopyright {
+            cursor: pointer;
+            &:hover {
+                color: main.$primaryColor !important;
+                transition: color ease-in-out 0.3s;
+            }
+        }
+    }
+
+}
+
+.react-datepicker-popper {
+    z-index: 1500;
+    background-color: white !important;
+    padding: main.$marginSM !important;
+    border-radius: main.$borderRadius !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+
+    .react-datepicker__aria-live {
+        display: none !important;
+    }
+    
+    .react-datepicker {
+        font-family: inherit !important;
+
+        .react-datepicker__navigation {
+            border-radius: main.$borderRadius !important;
+            background-color: main.$secondaryColor !important;
+            color: main.$primaryColor !important;
+            border-color: transparent !important;
+            padding-left: 12px;
+            padding-right: 12px;
+            margin-left: 1px;
+            margin-right: 1px;
+            
+            &:hover {
+                color: main.$tertiaryColor !important;
+            }
+        }
+        
+        .react-datepicker__header {
+            padding-bottom: 6px !important;
+
+            &.react-datepicker-year-header {
+                text-align: center !important;
+                font-weight: 600 !important;
+                border-radius: main.$borderRadius !important;
+                padding: main.$marginXS !important;
+            }
+            
+            .react-datepicker__current-month {
+                font-weight: 600 !important;
+                color: main.$tertiaryColor !important;
+                padding-right: 12px;
+                padding-left: 12px;
+
+            }
+            
+            .react-datepicker__day-name {
+                color: main.$primaryColor !important;
+            }
+        }
+        .react-datepicker__month-wrapper {
+            .react-datepicker__month-text {
+                
+                text-align: start;
+                border-radius: main.$borderRadius !important;
+                padding: main.$marginXS !important;
+                &:hover {
+                    color: main.$primaryColor !important;
+                    cursor: pointer;
+                }
+            }
+            
+            .react-datepicker__month-text--selected {
+                text-align: start;
+                font-weight: 600 !important;
+                border-radius: main.$borderRadius !important;
+                padding: main.$marginXS !important;
+                background-color: main.$secondaryColor !important;
+            }
+            
+        }
+        
+        .react-datepicker__day {
+            border-radius: 50% !important;
+            
+            &:hover {
+                background-color: main.$secondaryColor !important;
+                color: main.$black !important;
+            }
+            
+            &.react-datepicker__day--selected {
+                background-color: main.$primaryColor !important;
+                color: main.$white !important;
+            }
+        }
+    }
+}
+
+/* user page */
+.pantientPageContainer {
+
+    .descriptionContainer {
+        border-radius: main.$borderRadius !important;
+        box-shadow: main.$boxShadowAble !important;
+        background-color: main.$primaryLightColor;
+        
+        .eventItem {
+            background-color:  main.$lightAbleGray !important;
+            padding: main.$marginSM;
+            border-radius: 10px;
+
+            &.editing {
+                background-color: main.$tertiaryColor !important;
+                color: main.$black !important;
+            }
+
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .iconsBtn {
+                cursor: pointer;
+                &:hover {
+                    color: main.$primaryColor;
+                }
+            }
+
+            p {
+                margin: 0;
+            }
+        }
+    }
+
+
+    .customerInfoContainer {
+        border-radius: main.$borderRadius !important;
+        background-color:  main.$secondaryColor !important;
+
+        .infoLabel {
+            font-weight: 600;
+        }
+
+        .moreInfoContainer {
+            background-color: main.$lightAbleGray;
+            border-radius: main.$borderRadius;
+        }
+    }
+}
+
+/* --------------------------------- */
+/* settings */
+.infoPuplicProfileCard {
+            .card {
+            border-radius: 10px !important;
+            border-color: main.$darkAbleGray !important;
+
+            h3 {
+                font-family: 'Comic Sans MS', 'Nunito', 'Quicksand', sans-serif;
+            }
+
+            .card-footer {
+                border-top: transparent !important;
+                background-color: transparent !important;
+                font-size: 3em;
+            }
+        }
+}
+
+.cardEditAndDeleteBtn {
+    padding: main.$marginXS;
+    cursor: pointer;
+}
+
+.settingsLabel {
+    font-weight: 600;
+}
+
+/* -------------------------------------------- */
+
+.KPICard {
+    width: 70% !important;
+    
+    .card-body {
+        border-radius: 10px !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: main.$lightAbleGray !important;
+        padding: main.$marginSM;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        height: 100%;
+
+        .title {
+            font-size: 1.3em;
+            font-weight: 600;
+            text-align: center;
+            justify-self: center;
+            margin-bottom: main.$marginMD;
+            color: black;
+        }
+
+        .infoKPI {
+            font-size: 0.7em;
+            text-align: center;
+            justify-self: center;
+            margin-bottom: main.$marginSM;
+        }
+
+        .footerText {
+            font-weight: 600;
+        }
+
+    }
+}
+/* -------------------------------------------- */

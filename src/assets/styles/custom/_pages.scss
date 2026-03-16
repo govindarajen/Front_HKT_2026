@@ -1,0 +1,90 @@
+@use '../main.scss' as main;
+@use './_components';
+
+
+/* ----------------------------------------------------- */
+#authenticationPage {
+
+    .authSideBanner {
+        background: linear-gradient(135deg, main.$primaryColor 0%, main.$primaryLightColor 100%);
+    }
+
+    .bannerTitle {
+        font-size: 64px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 700;
+    }
+}
+
+/* ----------------------------------------------------- */
+
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: main.$primaryColor;
+    letter-spacing: -0.5px;
+    animation: fadeInDown 0.5s ease;
+    padding: 0.5rem 0;
+
+    @media (max-width: 768px) {
+        font-size: 1.5rem;
+    }
+
+    .insideTitle {
+        display: inline-block;
+        min-width: 50px;
+        border-radius: main.$borderRadius;
+        background-color: main.$secondaryColor;
+        text-align: center;
+        color: main.$darkGray;
+        font-weight: 500;
+        margin-left: 0.5rem;
+    }
+}
+
+
+/* ----------------------------------------------------- */
+
+.indexPage {
+    box-sizing: border-box !important;
+
+    background-color: main.$primaryLightColor;
+
+    .welcomeContainer {
+        color: main.$lightAbleGray;
+
+        .webName {
+            color: main.$secondaryColor;
+        }
+    }
+
+    .featuresContainer {
+
+        background-color: main.$secondaryColor;
+
+
+        .featureCard {
+            border-radius: main.$borderRadius !important;
+            box-shadow: main.$boxShadowAble !important;
+        }
+    }
+
+    .contactUsContainer {
+        background-color: main.$primaryLightColor;
+        color: main.$white;
+
+        .contactUsBtn {
+            width: 200px;
+        }
+    }
+
+    .legalsContainer {
+        color: main.$darkAbleGray !important;
+    }
+
+    .footer {
+        background-color: main.$primaryLightColor;
+    }
+
+}

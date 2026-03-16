@@ -1,0 +1,25 @@
+@use 'main' as main;
+@use './custom/_components';
+@use './custom/_pages';
+
+
+
+
+.bgPrimary {
+    background-color: main.$primaryColor !important;
+}
+
+.footer {
+    background-color: main.$white;
+    color: main.$primaryColor;
+}
+
+/* custom bootstrap class */
+
+.font-weight-600 {
+    font-weight: 600 !important;
+}
+
+.fs-xxs {
+    font-size: 0.6rem !important;
+}
