@@ -121,6 +121,13 @@
     "notMemberOfAnyEnterprise": "Vous n'êtes membre d'aucune entreprise. Veuillez contacter votre administrateur pour être ajouté à une entreprise.",
     "fileFromState": "Fichier importé",
 
+    "curatedDocuments": "Documents traités",
+    "rawDocuments": "Documents bruts",
+    "cleanDocuments": "Documents épurés",
+    "extractionDate": "Date d'extraction",
+    "filename": "Nom du fichier",
+    "uploadDate": "Date de téléchargement",
+
     "documentType": "Type de document",
     "siret": "SIRET",
     "nomEntreprise": "Nom de l'entreprise",
@@ -134,7 +141,12 @@
     "validated": "Validé",
     "validationDate": "Date de validation",
     "status": "Statut",
-    "queued": "En file d'attente",
+    "queued": "En attente",
+    "processing": "En cours de traitement",
+    "processed": "Traité",
+    "needs_validation": "Besoin de validation",
+    "rejected": "Rejeté",
+    "No enterprise linked to this document": "Aucune entreprise liée à ce document",
 
     "facture_fournisseur": "Facture fournisseur",
     "devis": "Devis",

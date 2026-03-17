@@ -92,6 +92,10 @@
 }
 /* ------------------------------ tableList */
 
+.nav-link {
+    cursor: pointer;
+}
+
 .tableList {
     width: 100%;
     border: 1px solid var(--border-color);
@@ -195,6 +199,26 @@
         flex-wrap: wrap;
         background-color: var(--surface-color);
     }
+    
+    .checkBoxList {
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+        background-color: var(--light-able-gray);
+        transition: all 0.2s ease;
+        accent-color: var(--primary-color);
+
+        &:hover {
+        border-color: var(--primary-color) !important;
+        }
+    }
+    input[type="checkbox"].checkBoxList {
+        accent-color: #2563eb !important;
+        color-scheme: light; // fixes black native unchecked style
+    }
+
+
 
     .tablePageBtn {
         background-color: var(--primary-color) !important;

@@ -6,6 +6,11 @@ export default function TableList({ data, columns, onRowClick }) {
         return <p>Error list..</p>;
     }
 
+    // Helper function to get nested object values
+    const getNestedValue = (obj, path) => {
+        return path.split('.').reduce((current, key) => current?.[key], obj);
+    };
+
 
     const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 12;
@@ -34,7 +39,7 @@ export default function TableList({ data, columns, onRowClick }) {
                             {columns.map((col, colIndex) => {
                                 
                                 if(col.type == "text") {
-                                    const text = String(row[col.field]);
+                                    const text = String(getNestedValue(row, col.field) || '');
                                     return (
                                         <td key={colIndex}>
                                             {text}
@@ -43,13 +48,13 @@ export default function TableList({ data, columns, onRowClick }) {
                                 } else if (col.type == "date") {
                                     return (
                                         <td key={colIndex}>
-                                            {row[col.field] ? moment(row[col.field]).format('YYYY-MM-DD') : ''}
+                                            {getNestedValue(row, col.field) ? moment(getNestedValue(row, col.field)).format('YYYY-MM-DD') : ''}
                                         </td>
                                     )
                                 } else if (col.type == "switch") {
                                     return (
                                         <td key={colIndex}>
-                                            <input type="checkbox" checked={row[col.field]} readOnly />
+                                            <input type="checkbox" checked={getNestedValue(row, col.field) || false} readOnly className='checkBoxList'/>
                                         </td>
                                     )
                                 }
