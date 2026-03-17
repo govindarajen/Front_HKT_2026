@@ -1,7 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { apiClient } from '../../helpers/apiHelper';
-import { loginRequest, loginSuccess, loginFailure, setLogout } from './userReducer';
-import { getUsersFailure, getUsersSuccess, getUsersRequest } from '../admin/adminReducer';
+import { loginRequest, loginSuccess, loginFailure, registerRequest, registerSuccess, registerFailure, getUsersRequest, getUsersSuccess, getUsersFailure, setLogout } from './userReducer';
 
 function* loginSaga(action) {
     try {
@@ -15,6 +14,31 @@ function* loginSaga(action) {
         }
     } catch (error) {
         yield put(loginFailure(error.message || 'Login failed'));
+    }
+}
+
+function* registerSaga(action) {
+    try {
+        const { username, password, fullName, isEnterpriseOwner, navigate } = action.payload;
+        const response = yield call([apiClient, apiClient.post], '/users/register', {
+            username,
+            password,
+            fullName,
+            role: isEnterpriseOwner ? 'enterprise_owner' : 'employee',
+        });
+
+        if (response.status === 200 || response.status === 201) {
+            if (response.data?.user) {
+                yield put(registerSuccess(response.data.user));
+            } else {
+                yield put(registerSuccess({ username, fullName }));
+            }
+            if (navigate) navigate('/dashboard');
+        } else {
+            yield put(registerFailure('Register failed'));
+        }
+    } catch (error) {
+        yield put(registerFailure(error.message || 'Register failed'));
     }
 }
 
@@ -44,6 +68,7 @@ function* getUsers() {
 
 export default function* userSaga() {
     yield takeLatest(loginRequest.type, loginSaga);
+    yield takeLatest(registerRequest.type, registerSaga);
     yield takeLatest(setLogout.type, logoutSaga);
     yield takeLatest(getUsersRequest.type, getUsers);
 }

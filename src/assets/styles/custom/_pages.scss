@@ -6,12 +6,12 @@
 #authenticationPage {
 
     .authSideBanner {
-        background: linear-gradient(135deg, main.$primaryColor 0%, main.$primaryLightColor 100%);
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
     }
 
     .bannerTitle {
         font-size: 64px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-weight: 700;
     }
 }
@@ -22,7 +22,7 @@
 .title {
     font-size: 2rem;
     font-weight: 700;
-    color: main.$primaryColor;
+    color: var(--primary-color);
     letter-spacing: -0.5px;
     animation: fadeInDown 0.5s ease;
     padding: 0.5rem 0;
@@ -35,9 +35,9 @@
         display: inline-block;
         min-width: 50px;
         border-radius: main.$borderRadius;
-        background-color: main.$secondaryColor;
+        background-color: var(--accent-color);
         text-align: center;
-        color: main.$darkGray;
+        color: var(--surface-color);
         font-weight: 500;
         margin-left: 0.5rem;
     }
@@ -49,30 +49,36 @@
 .indexPage {
     box-sizing: border-box !important;
 
-    background-color: main.$primaryLightColor;
+    background-color: var(--background-color);
 
     .welcomeContainer {
-        color: main.$lightAbleGray;
+        color: var(--text-primary);
 
         .webName {
-            color: main.$secondaryColor;
+            color: var(--primary-color);
         }
     }
 
     .featuresContainer {
 
-        background-color: main.$secondaryColor;
+        background-color: var(--surface-color);
 
 
         .featureCard {
             border-radius: main.$borderRadius !important;
-            box-shadow: main.$boxShadowAble !important;
+            box-shadow: var(--shadow-light) !important;
+            border: 1px solid var(--border-color);
+            transition: box-shadow 0.2s ease;
+
+            &:hover {
+                box-shadow: var(--shadow-medium) !important;
+            }
         }
     }
 
     .contactUsContainer {
-        background-color: main.$primaryLightColor;
-        color: main.$white;
+        background-color: var(--primary-color);
+        color: var(--surface-color);
 
         .contactUsBtn {
             width: 200px;
@@ -80,11 +86,11 @@
     }
 
     .legalsContainer {
-        color: main.$darkAbleGray !important;
+        color: var(--text-secondary) !important;
     }
 
     .footer {
-        background-color: main.$primaryLightColor;
+        background-color: var(--primary-color);
     }
 
 }

@@ -21,6 +21,7 @@ import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import fr from 'date-fns/locale/fr';
 import { useTranslation } from 'react-i18next';
+import FormEnterpriseModal from './formCreateEnteprise';
 
 // Configuration des jours et mois en français pour le DatePicker
 const days = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
@@ -41,25 +42,41 @@ registerLocale('fr', fr);
 
 
 
-export default function Dashboard() {
 
+export default function Dashboard() {
+    
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    
     const { t } = useTranslation()
-
+    
     const { pref } = useSelector((state) => state.account.value);
     const user = useSelector((state) => state.account.value);
-
+    
     const [filterDate, setFilterDate] = useState(new Date());
-
+    
     const date = moment(filterDate).format("DD/MM/YYYY");
+    
+    const [isCreatingEnterprise, setIsCreatingEnterprise] = useState(false);
+
+    useEffect( () => {
+        const rights = user?.rights || [];
+
+
+        if (rights.includes('document_validation') && user?.enterpriseId == null) {
+            setIsCreatingEnterprise(true);
+        }   
+
+    }, [user])
+
+
 
     /* ---------------------------------------------------------- */
 
     return (
         <Container fluid className="dashboard-page px-4 py-4">
 
+            <FormEnterpriseModal isOpen={isCreatingEnterprise} toggle={() => setIsCreatingEnterprise(false)} />
         </Container>
     );
 }   

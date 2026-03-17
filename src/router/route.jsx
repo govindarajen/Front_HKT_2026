@@ -6,6 +6,9 @@ import { apiClient } from '../helpers/apiHelper';
 
 /* -------------------------------------- */
 import Dashboard from '../pages/Dashboard';
+import Documents from '../pages/Documents';
+import AddDocument from '../pages/Documents/addDocument';
+import Enterprise from '../pages/Enterprise';
 import Layout from '../components/Layout';
 import Auth from '../pages/Auth';
 import AdminPanel from '../pages/AdminPanel';
@@ -25,6 +28,21 @@ const AppRouter = () => {
             <Route path="/dashboard" element={
                 <Layout>
                     <Dashboard />
+                </Layout>
+                } />
+            <Route path="/documents" element={
+                <Layout>
+                    <Documents />
+                </Layout>
+                } />
+            <Route path="/documents/add" element={
+                <Layout>
+                    <AddDocument />
+                </Layout>
+                } />
+            <Route path="/enterprise" element={
+                <Layout>
+                    <Enterprise />
                 </Layout>
                 } />
             <Route path="/adminpanel" element={

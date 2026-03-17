@@ -1,13 +1,17 @@
-import { faHome, faCalendarAlt, faUserInjured, faFileInvoice, faUser, faAddressBook } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faCalendarAlt, faUserInjured, faFileInvoice, faUser, faAddressBook, faFileImport } from '@fortawesome/free-solid-svg-icons';
 
 export const menuItems = [
         { name: 'dashboard', path: '/dashboard', icon: faHome,
             rightName: 'dashboard',
             rights: ['dashboard_r']
         },
-        { name: 'documents', path: '/documents', icon: faAddressBook ,
+        { name: 'enterprise', path: '/enterprise', icon: faAddressBook,
+            rightName: 'enterprise',
+            rights: ['enterprise_r']
+        },
+        { name: 'documents', path: '/documents', icon: faFileImport ,
             rightName: 'documents',
-            rights: ['documents_r, documents_w', 'documents_r', 'documents_w']
+            rights: ["document_upload", "document_r", "document_c", "document_w", "document_d"]
         },
         { name: 'admin', path: '/adminpanel', icon: faUser,
             rightName: 'admin',

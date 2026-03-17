@@ -61,7 +61,7 @@ export default function NavBar () {
 
     const navItems = menuItems.map((item) => {
         let hasRight = false;
-        
+
         if (item.rights && item.rights.length > 0) {
             hasRight = item.rights.some(right => rights.includes(right));
         } else if (item.rightName) {

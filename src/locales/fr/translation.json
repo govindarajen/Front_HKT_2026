@@ -4,6 +4,7 @@
     "english": "English",
 
     "dashboard": "Tableau de bord",
+    "enterprise": "Entreprise",
     "admin": "Admin",
 
 
@@ -50,10 +51,19 @@
     "authBannerText": "Connexion",
     "username": "Nom d'utilisateur",
     "password": "Mot de passe",
+    "fullName": "Nom complet",
     "login": "Se connecter",
     "logout": "Se déconnecter",
     "connection": "Connexion",
-
+    "createAccount": "Créer un compte",
+    "dontHaveAccount": "Je n'ai pas de compte",
+    "alreadyHaveAccount": "J'ai déjà un compte",
+    "employee": "Employé",
+    "enterpriseOwner": "Propriétaire d'entreprise",
+    "authUserNotFound": "Utilisateur non trouvé",
+    "authInvalidCredentials": "Identifiants invalides",
+    "authUserAlreadyExists": "Cet utilisateur existe déjà",
+    
     "agenda": "Agenda",
     "today": "Aujourd'hui",
     "day": "Jour",
@@ -62,10 +72,75 @@
     "year": "Année",
     "event": "Événement",
     "noEventsInRange": "Aucun événement prévu",
-
-
+    
+    
     "chooseProfession": "Choisissez une profession",
     "medical": "Médical",
-    "other": "Autre"
+    "other": "Autre",
+    
+    "enterpriseMembers": "Membres de l'entreprise",
+    "addEnterpriseMember": "Ajouter un membre",
+    "noEnterpriseMembers": "Aucun membre dans cette entreprise.",
+    "selectUser": "Sélectionner un utilisateur",
+    "addMemberError": "Impossible d'ajouter ce membre.",
+    "addMemberRequestError": "Impossible d'envoyer la demande d'adhésion.",
+    "sendRequest": "Envoyer la demande",
+    "removeMember": "Retirer le membre",
+    "removeMemberError": "Impossible de retirer ce membre.",
+    "removeEnterpriseMemberTitle": "Retirer un membre",
+    "removeEnterpriseMemberMessage": "Voulez-vous retirer {{fullName}} ({{username}}) de votre entreprise ?",
+    "enterpriseInvitationTitle": "Invitation entreprise",
+    "enterpriseInvitationMessage": "{{requestedBy}} vous invite à rejoindre l'entreprise {{enterprise}}.",
+    "accept": "Accepter",
+    "reject": "Refuser",
+    "membershipRequestLoadError": "Impossible de charger les demandes d'adhésion.",
+    "membershipRequestResponseError": "Impossible de répondre à la demande.",
+    "addMemberRequestSuccess": "Demande d'adhésion envoyée avec succès",
+    
+    "entrepriseName": "Nom de l'entreprise",
+    
+    "removeMemberSuccess": "Membre retiré avec succès",
+    "cannotRemoveMember": "Vous ne pouvez pas retirer ce membre.",
 
+
+    "documents": "Documents",
+    "addDocument": "Ajouter un document",
+    "uploading": "Téléchargement en cours...",
+    "chooseFile": "Choisissez un fichier",
+    "importDocument": "Traiter le document",
+    "browse": "Parcourir",
+    "selectFile": "Sélectionner un fichier",
+    "threeDocumentsHint": "Ajoutez les 3 documents : devis, facture et attestation.",
+    "threeDocumentsRequired": "Les 3 documents sont obligatoires : devis, facture et attestation.",
+    "uploadError": "Erreur lors de l'envoi des documents.",
+    "filePreview": "Aperçu du fichier",
+    "selectDocumentType": "Sélectionnez un type de document",
+    "noFileSelectedTitle": "Aucun fichier sélectionné",
+    "noFileSelectedText": "Importez un fichier pour afficher son aperçu.",
+    "emptyFormText": "Formulaire vide pour le moment.",
+    "notMemberOfAnyEnterprise": "Vous n'êtes membre d'aucune entreprise. Veuillez contacter votre administrateur pour être ajouté à une entreprise.",
+    "fileFromState": "Fichier importé",
+
+    "documentType": "Type de document",
+    "siret": "SIRET",
+    "nomEntreprise": "Nom de l'entreprise",
+    "fournisseur": "Fournisseur",
+    "tva": "TVA",
+    "montantHT": "Montant HT",
+    "montantTTC": "Montant TTC",
+    "dateEmission": "Date d'émission",
+    "dateExpiration": "Date d'échéance",
+    "anomalies": "Anomalies",
+    "validated": "Validé",
+    "validationDate": "Date de validation",
+    "status": "Statut",
+    "queued": "En file d'attente",
+
+    "facture_fournisseur": "Facture fournisseur",
+    "devis": "Devis",
+    "attestation_siret": "Attestation SIRET",
+    "attestation_urssaf": "Attestation URSSAF",
+    "extrait_kbis": "Extrait Kbis",
+    "rib": "RIB",
+    "autre": "Autre"
 }

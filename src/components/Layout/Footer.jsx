@@ -14,7 +14,7 @@ export default function Footer () {
 
     return (
         <footer className='w-100 p-2 m-0 footer d-flex flex-column'>
-            <p className='text-center m-0'>Copyright © 2025/{year} | COODIEN Govindarajen</p>
+            <p className='text-center m-0'>Copyright © {year} | Groupe 33 Hackathon IPSSI</p>
         </footer>
     )
 }

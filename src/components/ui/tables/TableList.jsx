@@ -22,9 +22,9 @@ export default function TableList({ data, columns, onRowClick }) {
         <div className="tableList mt-3 mb-1">
             <table className="table">
                 <thead>
-                    <tr >
+                    <tr>
                         {columns.map((col, index) => (
-                            <th key={index} className={`${index === 0 ? 'rounded-start' : ''} ${index === columns.length - 1 ? 'rounded-end' : ''}`}>{col.label}</th>
+                            <th key={index}>{col.label}</th>
                         ))}
                     </tr>
                 </thead>

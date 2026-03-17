@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import accountSlice from "./users/userReducer.js";
 import adminSlice from './admin/adminReducer.js';
+import enterpriseSlice from './enterprise/enterpriseReducer.js';
 
 
 import rootSaga from './rootSaga.js';
@@ -17,6 +18,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
     account: accountSlice,
     admin: adminSlice,
+    enterprise: enterpriseSlice,
 
 });
 
