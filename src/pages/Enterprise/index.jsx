@@ -147,10 +147,10 @@ export default function Enterprise() {
     };
 
     return (
-        <Container fluid className="dashboard-page px-4 py-4">
-            <Row>
-                <Col xl={12} sm={12}>
-                    <Card className="b-4">
+        <Container fluid className="dashboard-page px-4 py-4 h-100">
+            <Row className=''>
+                <Col xl={12} sm={12} className='w-100 h-100'>
+                    <Card className="b-4 w-100 h-100">
                         <CardBody>
                             <div className='d-flex align-items-center justify-content-between mb-3'>
                                 <h5 className='mb-0'>{t('enterpriseMembers')}</h5>

@@ -45,7 +45,10 @@ export default function Documents() {
 
     const { t } = useTranslation()
     const navigate = useNavigate();
-    const fileFromState = useSelector((state) => state.documents?.uploadedFile ?? state.documents?.value?.uploadedFile ?? state.documents?.selectedFile ?? null);
+
+    const user = useSelector((state) => state.account.value);
+
+    const hasEnterprise = Boolean(user?.enterpriseId?._id || user?.enterpriseId);
 
     /* ---------------------------------------------------------- */
 
@@ -56,7 +59,7 @@ export default function Documents() {
                     <Card className="mb-4">
                         <CardBody className='d-flex justify-content-between align-items-center'>
                             <h1>{t('documents')}</h1>
-                            <Button onClick={() => navigate('/documents/add')}><FontAwesomeIcon icon={faFileCirclePlus} /> {t('addDocument')}</Button>
+                            <Button disabled={!hasEnterprise} onClick={() => navigate('/documents/add')}><FontAwesomeIcon icon={faFileCirclePlus} /> {t('addDocument')}</Button>
                         </CardBody>
                     </Card>
                 </div>
