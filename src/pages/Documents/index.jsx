@@ -52,9 +52,9 @@ export default function Documents() {
     ];
 
     const curatedDocumentColumns = [
-        { label: t('documentType'), field: 'documentType', type: 'text' },
-        { label: t('nomEntreprise'), field: 'nomEntreprise', type: 'text' },
-        { label: t('fournisseur'), field: 'fournisseur', type: 'text' },
+        { label: t('detectedType'), field: 'detectedType', type: 'text' },
+        { label: t('client'), field: 'client', type: 'text' },
+        { label: t('validationStatus'), field: 'validationStatus', type: 'text' },
         { label: t('montantTTC'), field: 'montantTTC', type: 'text' },
         { label: t('dateEmission'), field: 'dateEmission', type: 'date' },
         { label: t('validated'), field: 'validated', type: 'switch' },
@@ -81,9 +81,11 @@ export default function Documents() {
         if (curatedDocuments &&  curatedDocuments.length > 0) {
             const formatted = curatedDocuments.map(doc => ({
                 ...doc,
-                documentType: t(doc.documentType),
+                detectedType: t(doc.detectedType),
                 dateEmission: doc.dateEmission ? new Date(doc.dateEmission) : null,
-                status: t(doc.status),
+                montantTTC: doc.montantTTC ? `${doc.montantTTC} €` : t('unknown'),
+                status: doc?.validationStatus == "invalid" ? t("youCannotValidate") : t(doc.status),
+                validationStatus: t(doc.validationStatus),
             }));
             setCuratedFormattedDocuments(formatted);
         }
@@ -126,7 +128,7 @@ export default function Documents() {
             return;
         }
 
-        navigate(`/document/${document.siret}`);
+        navigate(`/document/${document.siret}`, { state: { docId: document._id } });
     };
 
 

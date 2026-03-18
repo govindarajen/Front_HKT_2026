@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
     Alert,
@@ -38,7 +38,7 @@ const getStatusColor = (status) => {
     }
 };
 
-const excludedKeys = ['_id', '__v', 'rawId', 'cleanId', 'enterpriseId', 'processingHistory', 'file_url'];
+const excludedKeys = ['_id', '__v', 'rawId', 'cleanId', 'enterpriseId', 'processingHistory', 'file_url', 'anomalies'];
 
 const formatDate = (value) => {
     const date = new Date(value);
@@ -86,6 +86,21 @@ const displayValue = (key, value, t) => {
         return value?.full || t('notAvailable');
     }
 
+    if ((key === 'montantTTC' || key === 'montantHT') && typeof value === 'number') {
+        return `${value} €`;
+    }
+    if (key === 'detectedType' && typeof value === 'string') {
+        return t(value) || t('notAvailable');
+    }
+
+    if (key === 'status') {
+        return t(value) || t('notAvailable');
+    }
+
+    if (key === 'validationStatus') {
+        return t(value) || t('notAvailable');
+    }
+
     if (Array.isArray(value)) {
         return value.length > 0 ? value.join(', ') : t('notAvailable');
     }
@@ -101,11 +116,13 @@ const displayValue = (key, value, t) => {
     return String(value);
 };
 
-const DocumentDetailsModal = () => {
+export default function DocumentDetailsModal() {
     const { t } = useTranslation();
     const { siret } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
+    const { docId } = location.state || {};
 
     const user = useSelector((state) => state.account.value);
     const { curatedDocuments } = useSelector((state) => state.documents);
@@ -152,14 +169,18 @@ const DocumentDetailsModal = () => {
             return [];
         }
 
-        return curatedDocuments
-            .filter((doc) => String(doc?.siret || '') === String(siret))
-            .sort((a, b) => {
-                const dateA = new Date(a?.dateEmission || 0).getTime();
-                const dateB = new Date(b?.dateEmission || 0).getTime();
-                return dateB - dateA;
-            });
-    }, [curatedDocuments, siret]);
+        const filtered = curatedDocuments.filter((doc) => String(doc?.siret || '') === String(siret));
+
+        return filtered.sort((a, b) => {
+            if (docId) {
+                if (a._id === docId) return -1;
+                if (b._id === docId) return 1;
+            }
+            const dateA = new Date(a?.dateEmission || 0).getTime();
+            const dateB = new Date(b?.dateEmission || 0).getTime();
+            return dateB - dateA;
+        });
+    }, [curatedDocuments, siret, docId]);
 
     useEffect(() => {
         if (!documentsForSiret.length) {
@@ -322,130 +343,162 @@ const DocumentDetailsModal = () => {
                 const preview = previewsByDocumentId[document._id];
 
                 return (
-                    <Card key={document._id || index} className="mb-3 border-0 shadow-sm document-details-card">
-                        <CardBody>
-                            <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-                                <h5 className="mb-0">{document?.numeroDocument?.numero || t('unknown')}</h5>
-                                <Badge color={getStatusColor(currentStatus)} pill>
-                                    {t(currentStatus)}
-                                </Badge>
-                            </div>
+                    <div key={document._id || index}>
+                        <Card className="mb-3 border-0 shadow-sm document-details-card">
+                            <CardBody>
+                                <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+                                    <h5 className="mb-0">{document?.numeroDocument?.numero || t('unknown')}</h5>
+                                    {
+                                         document.validationStatus !== 'invalid' ? 
+                                         (
 
-                            <Row className="g-4 mb-4">
-                                <Col lg={7}>
-                                    <h6 className="mb-2">{t('documentPreview')}</h6>
-                                    {preview?.loading ? (
-                                        <div style={{ height: '520px', border: '1px solid #ddd', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f9fa' }}>
-                                            <Spinner />
-                                        </div>
-                                    ) : preview?.url ? (
-                                        preview?.mimetype?.includes('image') ? (
-                                            <img
-                                                src={preview.url}
-                                                style={{ width: '100%', maxHeight: '720px', border: '1px solid #ddd', borderRadius: '8px', objectFit: 'contain', backgroundColor: '#fff' }}
-                                                alt="Document Preview"
-                                            />
+                                             <Badge color={getStatusColor(currentStatus)} pill>
+                                            {t(currentStatus)}
+                                        </Badge>
                                         ) : (
-                                            <iframe
-                                                src={preview.url}
-                                                style={{ width: '100%', height: '720px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#fff' }}
-                                                title={`Document Preview ${document._id}`}
-                                            />
+                                            <Badge color="danger" pill>
+                                                {t('invalid')}
+                                            </Badge>
                                         )
-                                    ) : (
-                                        <div style={{ height: '520px', border: '1px solid #ddd', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f9fa' }}>
-                                            <p className="mb-0 text-muted">{t('noPreviewAvailable') || 'No preview available'}</p>
-                                        </div>
-                                    )}
-                                </Col>
+                                    }
+                                </div>
 
-                                <Col lg={5}>
-                                    <Card className="h-100 border bg-light-subtle">
-                                        <CardBody>
-                                            <h6 className="mb-3">{t('documentDetails')}</h6>
-                                            <div style={{ maxHeight: '720px', overflowY: 'auto', paddingRight: '6px' }}>
-                                                <Row>
-                                                    {Object.entries(document)
-                                                        .filter(([key]) => !excludedKeys.includes(key))
-                                                        .map(([key, value]) => (
-                                                            <Col xs={12} key={`${document._id}-${key}`} className="mb-3">
-                                                                <Label className="text-muted mb-1">{t(key)}</Label>
-                                                                <div className="fw-semibold">{displayValue(key, value, t)}</div>
-                                                            </Col>
-                                                        ))}
-                                                </Row>
+                                <Row className="g-4 mb-4">
+                                    <Col lg={7}>
+                                        <h6 className="mb-2">{t('documentPreview')}</h6>
+                                        {preview?.loading ? (
+                                            <div style={{ height: '520px', border: '1px solid #ddd', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f9fa' }}>
+                                                <Spinner />
                                             </div>
-                                        </CardBody>
-                                    </Card>
-                                </Col>
-                            </Row>
+                                        ) : preview?.url ? (
+                                            preview?.mimetype?.includes('image') ? (
+                                                <img
+                                                    src={preview.url}
+                                                    style={{ width: '100%', maxHeight: '720px', border: '1px solid #ddd', borderRadius: '8px', objectFit: 'contain', backgroundColor: '#fff' }}
+                                                    alt="Document Preview"
+                                                />
+                                            ) : (
+                                                <iframe
+                                                    src={preview.url}
+                                                    style={{ width: '100%', height: '720px', border: '1px solid #ddd', borderRadius: '8px', backgroundColor: '#fff' }}
+                                                    title={`Document Preview ${document._id}`}
+                                                />
+                                            )
+                                        ) : (
+                                            <div style={{ height: '520px', border: '1px solid #ddd', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f9fa' }}>
+                                                <p className="mb-0 text-muted">{t('noPreviewAvailable') || 'No preview available'}</p>
+                                            </div>
+                                        )}
+                                    </Col>
 
-                            <Card className="border-0 bg-light">
-                                <CardBody>
-                                    <h6 className="mb-3">{t('changeStatus')}</h6>
+                                    <Col lg={5}>
+                                        <Card className="h-100 border bg-light-subtle ">
+                                            <CardBody>
+                                                <h6 className="mb-3">{t('documentDetails')}</h6>
+                                                <div style={{ maxHeight: '720px', overflowY: 'auto', paddingRight: '6px' }} className='overflow-x-hidden'>
+                                                    <Row>
+                                                        {Object.entries(document)
+                                                            .filter(([key]) => !excludedKeys.includes(key))
+                                                            .map(([key, value]) => (
+                                                                <Col xs={12} key={`${document._id}-${key}`} className="mb-3">
+                                                                    <Label className="text-muted mb-1">{t(key)}</Label>
+                                                                    <div className="fw-semibold">{displayValue(key, value, t)}</div>
+                                                                </Col>
+                                                            ))}
+                                                    </Row>
+                                                </div>
+                                            </CardBody>
+                                        </Card>
+                                    </Col>
+                                </Row>
 
-                                    {isEnterpriseOwner ? (
-                                        <Row className="g-3 align-items-end">
-                                            <Col md={8}>
-                                                <FormGroup className="mb-0">
-                                                    <Label for={`status-${document._id}`}>{t('status')}</Label>
-                                                    <Input
-                                                        id={`status-${document._id}`}
-                                                        type="select"
-                                                        value={selectedStatus}
-                                                        onChange={(event) => {
-                                                            const value = event.target.value;
-                                                            setStatusById((prev) => ({
-                                                                ...prev,
-                                                                [document._id]: value,
-                                                            }));
-                                                        }}
+                                { document.validationStatus !== 'invalid' ? ( 
+                                <Card className="border-0 bg-light">
+                                    <CardBody>
+                                        <h6 className="mb-3">{t('changeStatus')}</h6>
+
+                                        {isEnterpriseOwner ? (
+                                            <Row className="g-3 align-items-end">
+                                                <Col md={8}>
+                                                    <FormGroup className="mb-0">
+                                                        <Label for={`status-${document._id}`}>{t('status')}</Label>
+                                                        <Input
+                                                            id={`status-${document._id}`}
+                                                            type="select"
+                                                            value={selectedStatus}
+                                                            onChange={(event) => {
+                                                                const value = event.target.value;
+                                                                setStatusById((prev) => ({
+                                                                    ...prev,
+                                                                    [document._id]: value,
+                                                                }));
+                                                            }}
+                                                            disabled={isLoading}
+                                                        >
+                                                            {statusOptions.map((status) => (
+                                                                <option key={status} value={status}>{t(status)}</option>
+                                                            ))}
+                                                        </Input>
+                                                    </FormGroup>
+                                                </Col>
+
+                                                <Col md={4}>
+                                                    <Button
+                                                        color="primary"
+                                                        className="w-100"
+                                                        onClick={() => updateStatusForDocument(document._id)}
                                                         disabled={isLoading}
                                                     >
-                                                        {statusOptions.map((status) => (
-                                                            <option key={status} value={status}>{t(status)}</option>
-                                                        ))}
-                                                    </Input>
-                                                </FormGroup>
-                                            </Col>
-
-                                            <Col md={4}>
-                                                <Button
-                                                    color="primary"
-                                                    className="w-100"
-                                                    onClick={() => updateStatusForDocument(document._id)}
-                                                    disabled={isLoading}
-                                                >
-                                                    {isLoading ? (
-                                                        <>
-                                                            <Spinner size="sm" className="me-2" />
-                                                            {t('updating')}
-                                                        </>
-                                                    ) : t('updateStatus')}
-                                                </Button>
-                                            </Col>
-
-                                            {statusError && (
-                                                <Col xs={12}>
-                                                    <Alert color="danger" className="mb-0">
-                                                        {t(statusError)}
-                                                    </Alert>
+                                                        {isLoading ? (
+                                                            <>
+                                                                <Spinner size="sm" className="me-2" />
+                                                                {t('updating')}
+                                                            </>
+                                                        ) : t('updateStatus')}
+                                                    </Button>
                                                 </Col>
-                                            )}
-                                        </Row>
-                                    ) : (
-                                        <Alert color="info" className="mb-0">
-                                            {t('onlyEnterpriseOwnerCanChangeStatus')}
+
+                                                {statusError && (
+                                                    <Col xs={12}>
+                                                        <Alert color="danger" className="mb-0">
+                                                            {t(statusError)}
+                                                        </Alert>
+                                                    </Col>
+                                                )}
+                                            </Row>
+                                        ) : (
+                                            <Alert color="info" className="mb-0">
+                                                {t('onlyEnterpriseOwnerCanChangeStatus')}
+                                            </Alert>
+                                        )}
+                                    </CardBody>
+                                </Card>) : (
+                                    <Card className="border-0 bg-light">
+                                    <CardBody>
+                                        <Alert color="danger" className="mb-0">
+                                            {t('anomalies')}
+                                            <ul>
+                                                {
+                                                    document?.anomalies?.map((anomaly) => (
+                                                        <li key={anomaly}>{t(anomaly.type)} : {t(anomaly.message)}</li>
+                                                    ))
+                                                }
+                                            </ul>
                                         </Alert>
-                                    )}
-                                </CardBody>
-                            </Card>
-                        </CardBody>
-                    </Card>
+                                    </CardBody>
+                                    </Card>
+                                )}
+                            </CardBody>
+                        </Card>
+                        {index === 0 && documentsForSiret.length > 1 && docId === document._id && (
+                            <>
+                            <hr className="my-4 mx-5 mt-5" />
+                            <h5 className="mb-3 w-100 text-center fs-2 mb-4">{t('otherDocumentsWithSameSiret')}</h5>
+                            </>
+                        )}
+                    </div>
                 );
             })}
         </Container>
     );
 };
-
-export default DocumentDetailsModal;
