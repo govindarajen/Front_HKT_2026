@@ -24,23 +24,7 @@ import { useNavigate } from 'react-router-dom';
 import { getCleanDocumentsRequest, getCuratedDocumentsRequest, getRawDocumentsRequest } from '../../redux/documents/documentsReducer';
 import TableList from '../../components/ui/tables/TableList';
 import { apiClient } from '../../helpers/apiHelper';
-
-const initialFormData = {
-    documentType: 'autre',
-    siret: '',
-    nomEntreprise: '',
-    fournisseur: '',
-    tva: null,
-    montantHT: null,
-    montantTTC: null,
-    dateEmission: null,
-    dateExpiration: null,
-    anomalies: [],
-    validated: false,
-    validationDate: null,
-    status: 'queued',
-};
-
+import DocumentDetailsModal from './DocumentDetailsModal';
 // Importer et configurer la locale française
 registerLocale('fr', fr);
 
@@ -69,13 +53,12 @@ export default function Documents() {
     const [nextStatus, setNextStatus] = useState('queued');
 
     const statusOptions = ['queued', 'processing', 'processed', 'needs_validation', 'validated', 'rejected'];
-    const isEnterpriseOwner = true
-    /* Boolean(
+    const isEnterpriseOwner = Boolean(
         currentUserId &&
         enterpriseOwnerId &&
         String(currentUserId) === String(enterpriseOwnerId)
     );
- */
+    
     // Column definitions for different document types
     const rawDocumentColumns = [
         { label: t('filename'), field: 'filename', type: 'text' },
@@ -107,6 +90,50 @@ export default function Documents() {
         dispatch(getRawDocumentsRequest());
 
     }, [user?.enterpriseId] );
+
+
+
+    const [curatedFormattedDocuments, setCuratedFormattedDocuments] = useState([]);
+    const [cleanFormattedDocuments, setCleanFormattedDocuments] = useState([]);
+    const [rawFormattedDocuments, setRawFormattedDocuments] = useState([]);
+
+
+    useEffect( () => {
+
+        if (curatedDocuments &&  curatedDocuments.length > 0) {
+            const formatted = curatedDocuments.map(doc => ({
+                ...doc,
+                documentType: t(doc.documentType),
+                dateEmission: doc.dateEmission ? new Date(doc.dateEmission) : null,
+                status: t(doc.status),
+            }));
+            setCuratedFormattedDocuments(formatted);
+        }
+
+
+        if (cleanDocuments &&  cleanDocuments.length > 0) {
+            const formatted = cleanDocuments.map(doc => ({
+                ...doc,
+                extractionDate: doc.extractionDate ? new Date(doc.extractionDate) : null,
+                status: t(doc.status),
+            }));
+            setCleanFormattedDocuments(formatted);
+        }
+
+        if (rawDocuments &&  rawDocuments.length > 0) {
+            const formatted = rawDocuments.map(doc => ({
+                ...doc,
+                uploadDate: doc.uploadDate ? new Date(doc.uploadDate) : null,
+                status: t(doc.status),
+            }));
+            setRawFormattedDocuments(formatted);
+        }
+
+    }, [curatedDocuments, cleanDocuments, rawDocuments] );
+
+
+
+
 
     useEffect(() => {
         const fetchEnterpriseOwner = async () => {
@@ -140,10 +167,15 @@ export default function Documents() {
         if (!isEnterpriseOwner) {
             return;
         }
+        const findUntranslatedStatus = statusOptions.find(status => t(status) === document.status);
+        if (findUntranslatedStatus) {
+            setNextStatus(findUntranslatedStatus);
+        } else {
+            setNextStatus(document?.status || 'queued');
+        }
 
         setSelectedDocument(document);
         setSelectedDocumentType(documentType);
-        setNextStatus(document?.status || 'queued');
         setStatusError(null);
         setIsStatusModalOpen(true);
     };
@@ -163,7 +195,13 @@ export default function Documents() {
         try {
             setStatusLoading(true);
             setStatusError(null);
-            await apiClient.patch(`/documents/${selectedDocumentType}/${selectedDocument._id}/status`, { status: nextStatus });
+            await apiClient.patch(`/documents/${selectedDocumentType}/${selectedDocument._id}/status`, { status: nextStatus }).then((response) => {
+                if (response.status === 200) {
+                    // Success
+                } else {
+                    console.error('Unexpected response status:', response.status);
+                }
+            });
 
             dispatch(getCleanDocumentsRequest());
             dispatch(getCuratedDocumentsRequest());
@@ -221,7 +259,7 @@ export default function Documents() {
                                         <CardBody>
                                             <h3>{t('curatedDocuments')}</h3>
                                             <TableList 
-                                                data={curatedDocuments || []} 
+                                                data={curatedFormattedDocuments || []} 
                                                 columns={curatedDocumentColumns} 
                                                 onRowClick={(row) => openStatusModal(row, 'curated')} 
                                             />
@@ -238,7 +276,7 @@ export default function Documents() {
                                         <CardBody>
                                             <h3>{t('cleanDocuments')}</h3>
                                             <TableList 
-                                                data={cleanDocuments || []} 
+                                                data={cleanFormattedDocuments || []} 
                                                 columns={cleanDocumentColumns} 
                                                 onRowClick={(row) => openStatusModal(row, 'clean')} 
                                             />
@@ -255,7 +293,7 @@ export default function Documents() {
                                         <CardBody>
                                             <h3>{t('rawDocuments')}</h3>
                                             <TableList 
-                                                data={rawDocuments || []} 
+                                                data={rawFormattedDocuments || []} 
                                                 columns={rawDocumentColumns} 
                                                 onRowClick={(row) => openStatusModal(row, 'raw')} 
                                             />
@@ -274,34 +312,17 @@ export default function Documents() {
                 </Col>
             </Row>
 
-            <Modal isOpen={isStatusModalOpen} toggle={closeStatusModal}>
-                <ModalHeader toggle={closeStatusModal}>Update document status</ModalHeader>
-                <ModalBody>
-                    <FormGroup>
-                        <Label for="statusSelect">Status</Label>
-                        <Input
-                            id="statusSelect"
-                            type="select"
-                            value={nextStatus}
-                            onChange={(event) => setNextStatus(event.target.value)}
-                        >
-                            {statusOptions.map((status) => (
-                                <option key={status} value={status}>{t(status)}</option>
-                            ))}
-                        </Input>
-                    </FormGroup>
-
-                    {statusError && (
-                        <Alert color="danger" className="mb-0">{t(statusError)}</Alert>
-                    )}
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="secondary" onClick={closeStatusModal} disabled={statusLoading}>Cancel</Button>
-                    <Button color="primary" onClick={handleStatusUpdate} disabled={statusLoading}>
-                        {statusLoading ? 'Updating...' : 'Update'}
-                    </Button>
-                </ModalFooter>
-            </Modal>
+            <DocumentDetailsModal
+                isOpen={isStatusModalOpen} 
+                onClose={closeStatusModal} 
+                document={selectedDocument} 
+                documentType={selectedDocumentType} 
+                nextStatus={nextStatus} 
+                onStatusUpdate={handleStatusUpdate} 
+                statusError={statusError} 
+                statusLoading={statusLoading} 
+                setNextStatus={setNextStatus}
+            />
         </Container>
     );
 }

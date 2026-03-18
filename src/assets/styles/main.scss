@@ -120,6 +120,10 @@ body {
   border-radius: 0 0 $borderRadius $borderRadius !important;
 }
 
+.modal-xl {
+  max-width: 90% !important;
+}
+
 // Animations
 @keyframes fadeInDown {
   from {
