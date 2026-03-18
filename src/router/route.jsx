@@ -21,7 +21,7 @@ const AppRouter = () => {
     return (
         <Routes>
             <Route path="/" element={
-                <IndexPage />
+                <Auth />
             } />
             <Route path="/login" element={
                 <Auth />
