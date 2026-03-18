@@ -70,7 +70,7 @@ const displayValue = (key, value, t) => {
         return t('notAvailable');
     }
 
-    if (['dateEmission', 'dateExpiration', 'dateEcheance', 'validationDate', 'validatedAt', 'uploadDate', 'extractionDate', 'createdAt'].includes(key)) {
+    if (['dateEmission', 'dateExpiration', 'dateEcheance', 'validationDate', 'validatedAt', 'uploadDate', 'extractionDate'].includes(key)) {
         return formatDate(value) || t('notAvailable');
     }
 
@@ -479,8 +479,8 @@ export default function DocumentDetailsModal() {
                                             {t('anomalies')}
                                             <ul>
                                                 {
-                                                    document?.anomalies?.map((anomaly, idx) => (
-                                                        <li key={`${anomaly.type || 'anomaly'}-${anomaly.message}-${idx}`}>{t(anomaly.type)} : {t(anomaly.message)}</li>
+                                                    document?.anomalies?.map((anomaly) => (
+                                                        <li key={anomaly}>{t(anomaly.type)} : {t(anomaly.message)}</li>
                                                     ))
                                                 }
                                             </ul>

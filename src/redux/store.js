@@ -7,6 +7,7 @@ import accountSlice from "./users/userReducer.js";
 import adminSlice from './admin/adminReducer.js';
 import enterpriseSlice from './enterprise/enterpriseReducer.js';
 import documentsSlice from './documents/documentsReducer.js';
+import dashboardSlice from './dashboard/dashboardReducer.js';
 
 
 import rootSaga from './rootSaga.js';
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     admin: adminSlice,
     enterprise: enterpriseSlice,
     documents: documentsSlice,
+    dashboard: dashboardSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -26,7 +26,7 @@ registerLocale('fr', fr);
 
 
 
-export default function Documents() {
+export function Documents() {
 
     const { t } = useTranslation()
     const navigate = useNavigate();
@@ -251,3 +251,5 @@ export default function Documents() {
         </Container>
     );
 }
+
+export default Documents;

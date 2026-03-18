@@ -6,7 +6,7 @@ import { apiClient } from '../helpers/apiHelper';
 
 /* -------------------------------------- */
 import Dashboard from '../pages/Dashboard';
-import Documents from '../pages/Documents';
+import { Documents } from '../pages/Documents/index.jsx';
 import AddDocument from '../pages/Documents/addDocument';
 import DocumentDetailsModal from '../pages/Documents/DocumentDetailsModal';
 import Enterprise from '../pages/Enterprise';
