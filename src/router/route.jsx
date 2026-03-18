@@ -8,6 +8,7 @@ import { apiClient } from '../helpers/apiHelper';
 import Dashboard from '../pages/Dashboard';
 import Documents from '../pages/Documents';
 import AddDocument from '../pages/Documents/addDocument';
+import DocumentDetailsModal from '../pages/Documents/DocumentDetailsModal';
 import Enterprise from '../pages/Enterprise';
 import Layout from '../components/Layout';
 import Auth from '../pages/Auth';
@@ -38,6 +39,11 @@ const AppRouter = () => {
             <Route path="/documents/add" element={
                 <Layout>
                     <AddDocument />
+                </Layout>
+                } />
+            <Route path="/document/:siret" element={
+                <Layout>
+                    <DocumentDetailsModal />
                 </Layout>
                 } />
             <Route path="/enterprise" element={

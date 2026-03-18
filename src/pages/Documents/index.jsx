@@ -8,13 +8,10 @@ import {
     Row,
     Button,
     TabContent, TabPane, Nav, NavItem, NavLink,
-    Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Alert,
 
 } from 'reactstrap';
-import { faFileImport, faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import Select from 'react-select';
-
-import DatePicker, { registerLocale } from "react-datepicker";
+import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { registerLocale } from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,8 +20,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { getCleanDocumentsRequest, getCuratedDocumentsRequest, getRawDocumentsRequest } from '../../redux/documents/documentsReducer';
 import TableList from '../../components/ui/tables/TableList';
-import { apiClient } from '../../helpers/apiHelper';
-import DocumentDetailsModal from './DocumentDetailsModal';
 // Importer et configurer la locale française
 registerLocale('fr', fr);
 
@@ -39,26 +34,9 @@ export default function Documents() {
     const user = useSelector((state) => state.account.value);
 
     const hasEnterprise = Boolean(user?.enterpriseId?._id || user?.enterpriseId);
-    const currentUserId = user?._id || user?.id;
-    const currentEnterpriseId = user?.enterpriseId?._id || user?.enterpriseId;
 
     const { cleanDocuments, curatedDocuments, rawDocuments } = useSelector((state) => state.documents);
 
-    const [enterpriseOwnerId, setEnterpriseOwnerId] = useState(null);
-    const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
-    const [statusError, setStatusError] = useState(null);
-    const [statusLoading, setStatusLoading] = useState(false);
-    const [selectedDocument, setSelectedDocument] = useState(null);
-    const [selectedDocumentType, setSelectedDocumentType] = useState('curated');
-    const [nextStatus, setNextStatus] = useState('queued');
-
-    const statusOptions = ['queued', 'processing', 'processed', 'needs_validation', 'validated', 'rejected'];
-    const isEnterpriseOwner = Boolean(
-        currentUserId &&
-        enterpriseOwnerId &&
-        String(currentUserId) === String(enterpriseOwnerId)
-    );
-    
     // Column definitions for different document types
     const rawDocumentColumns = [
         { label: t('filename'), field: 'filename', type: 'text' },
@@ -135,26 +113,6 @@ export default function Documents() {
 
 
 
-    useEffect(() => {
-        const fetchEnterpriseOwner = async () => {
-            if (!currentEnterpriseId) {
-                setEnterpriseOwnerId(null);
-                return;
-            }
-
-            try {
-                const response = await apiClient.get(`/enterprises/${currentEnterpriseId}`);
-                const ownerId = response?.data?.enterprise?.ownerId?._id || response?.data?.enterprise?.ownerId || null;
-                setEnterpriseOwnerId(ownerId);
-            } catch (error) {
-                setEnterpriseOwnerId(null);
-            }
-        };
-
-        fetchEnterpriseOwner();
-    }, [currentEnterpriseId]);
-
-
     const [activeTab, setActiveTab] = useState('1');
 
     const toggleTab = (tab) => {
@@ -163,54 +121,12 @@ export default function Documents() {
         }
     }
 
-    const openStatusModal = (document, documentType) => {
-        if (!isEnterpriseOwner) {
-            return;
-        }
-        const findUntranslatedStatus = statusOptions.find(status => t(status) === document.status);
-        if (findUntranslatedStatus) {
-            setNextStatus(findUntranslatedStatus);
-        } else {
-            setNextStatus(document?.status || 'queued');
-        }
-
-        setSelectedDocument(document);
-        setSelectedDocumentType(documentType);
-        setStatusError(null);
-        setIsStatusModalOpen(true);
-    };
-
-    const closeStatusModal = () => {
-        setIsStatusModalOpen(false);
-        setSelectedDocument(null);
-        setStatusError(null);
-        setStatusLoading(false);
-    };
-
-    const handleStatusUpdate = async () => {
-        if (!selectedDocument?._id || !selectedDocumentType) {
+    const openDocumentDetailsPage = (document) => {
+        if (!document?.siret) {
             return;
         }
 
-        try {
-            setStatusLoading(true);
-            setStatusError(null);
-            await apiClient.patch(`/documents/${selectedDocumentType}/${selectedDocument._id}/status`, { status: nextStatus }).then((response) => {
-                if (response.status === 200) {
-                    // Success
-                } else {
-                    console.error('Unexpected response status:', response.status);
-                }
-            });
-
-            dispatch(getCleanDocumentsRequest());
-            dispatch(getCuratedDocumentsRequest());
-            dispatch(getRawDocumentsRequest());
-            closeStatusModal();
-        } catch (error) {
-            setStatusError(error?.response?.data?.error || 'Failed to update status');
-            setStatusLoading(false);
-        }
+        navigate(`/document/${document.siret}`);
     };
 
 
@@ -261,7 +177,7 @@ export default function Documents() {
                                             <TableList 
                                                 data={curatedFormattedDocuments || []} 
                                                 columns={curatedDocumentColumns} 
-                                                onRowClick={(row) => openStatusModal(row, 'curated')} 
+                                                onRowClick={(row) => openDocumentDetailsPage(row)} 
                                             />
                                         </CardBody>
                                     </Card>
@@ -278,7 +194,7 @@ export default function Documents() {
                                             <TableList 
                                                 data={cleanFormattedDocuments || []} 
                                                 columns={cleanDocumentColumns} 
-                                                onRowClick={(row) => openStatusModal(row, 'clean')} 
+                                                onRowClick={(row) => openDocumentDetailsPage(row)} 
                                             />
                                         </CardBody>
                                     </Card>
@@ -295,7 +211,7 @@ export default function Documents() {
                                             <TableList 
                                                 data={rawFormattedDocuments || []} 
                                                 columns={rawDocumentColumns} 
-                                                onRowClick={(row) => openStatusModal(row, 'raw')} 
+                                                onRowClick={(row) => openDocumentDetailsPage(row)} 
                                             />
                                         </CardBody>
                                     </Card>
@@ -303,26 +219,8 @@ export default function Documents() {
                             </Row>
                         </TabPane>
                     </TabContent>
-
-                    {!isEnterpriseOwner && hasEnterprise && (
-                        <Alert color="info" className="mt-3 mb-0">
-                            Only the enterprise owner can update document status.
-                        </Alert>
-                    )}
                 </Col>
             </Row>
-
-            <DocumentDetailsModal
-                isOpen={isStatusModalOpen} 
-                onClose={closeStatusModal} 
-                document={selectedDocument} 
-                documentType={selectedDocumentType} 
-                nextStatus={nextStatus} 
-                onStatusUpdate={handleStatusUpdate} 
-                statusError={statusError} 
-                statusLoading={statusLoading} 
-                setNextStatus={setNextStatus}
-            />
         </Container>
     );
 }

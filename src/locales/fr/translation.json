@@ -144,6 +144,9 @@
     "validationStatus": "Statut d'Analyse",
     "validatedAt": "Analyse validé le",
     "valid": "Valide",
+    "unknown": "Inconnu",
+    "numeroDocument": "Numéro du document",
+    "onlyEnterpriseOwnerCanChangeStatus": "Seul le propriétaire de l'entreprise peut mettre à jour le statut du document.",
 
     "documentType": "Type de document",
     "siret": "SIRET",
