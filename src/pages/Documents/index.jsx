@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { getCleanDocumentsRequest, getCuratedDocumentsRequest, getRawDocumentsRequest } from '../../redux/documents/documentsReducer';
 import TableList from '../../components/ui/tables/TableList';
+import { apiClient } from '../../helpers/apiHelper';
 // Importer et configurer la locale française
 registerLocale('fr', fr);
 
@@ -78,15 +79,21 @@ export default function Documents() {
 
     useEffect( () => {
 
-        if (curatedDocuments &&  curatedDocuments.length > 0) {
-            const formatted = curatedDocuments.map(doc => ({
+        if (curatedDocuments && curatedDocuments.length > 0) {
+            const formatted = curatedDocuments
+            .map(doc => ({
                 ...doc,
                 detectedType: t(doc.detectedType),
                 dateEmission: doc.dateEmission ? new Date(doc.dateEmission) : null,
                 montantTTC: doc.montantTTC ? `${doc.montantTTC} €` : t('unknown'),
                 status: doc?.validationStatus == "invalid" ? t("youCannotValidate") : t(doc.status),
                 validationStatus: t(doc.validationStatus),
-            }));
+            }))
+            .sort((a, b) => {
+                if (!a.createdAt) return 1;
+                if (!b.createdAt) return -1;
+                return b.createdAt - a.createdAt;
+            });
             setCuratedFormattedDocuments(formatted);
         }
 
@@ -130,7 +137,25 @@ export default function Documents() {
 
         navigate(`/document/${document.siret}`, { state: { docId: document._id } });
     };
-
+    const handleDownloadDoc = async (doc) => {
+        if (!doc?._id) {
+            return;
+        }
+        try {
+            const response = await apiClient.get(`documents/raw/${doc._id}`, { responseType: 'blob' });
+            const mimetype = response?.headers?.['content-type'] || 'application/octet-stream';
+            const url = URL.createObjectURL(new Blob([response.data], { type: mimetype }));
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = doc.filename || 'document';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     /* ---------------------------------------------------------- */
 
@@ -213,7 +238,7 @@ export default function Documents() {
                                             <TableList 
                                                 data={rawFormattedDocuments || []} 
                                                 columns={rawDocumentColumns} 
-                                                onRowClick={(row) => openDocumentDetailsPage(row)} 
+                                                onRowClick={(row) => handleDownloadDoc(row)} 
                                             />
                                         </CardBody>
                                     </Card>

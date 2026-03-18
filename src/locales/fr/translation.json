@@ -150,6 +150,7 @@
     "onlyEnterpriseOwnerCanChangeStatus": "Seul le propriétaire de l'entreprise peut mettre à jour le statut du document.",
     "otherDocumentsWithSameSiret": "Autres documents avec le même SIRET",
     "youCannotValidate": "**Document invalide",
+    "createdAt": "Document rajouté le",
 
     "URSSAF_EXPIREE": "URSSAF",
     "FOURNISSEUR_CESSE": "Fournisseur",
