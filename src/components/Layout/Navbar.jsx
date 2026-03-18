@@ -99,7 +99,7 @@ export default function NavBar () {
     return (
         <nav id="navbar" className="navbar-expand-lg w-100 d-flex flex-row justify-content-between align-items-center p-3">
             <Col className="navTitle d-flex justify-content-start" xs={6} lg={3}>
-                <a className="navbarTitle" onClick={() => navigate("/dashboard")}>Hackathon</a>
+                <a className="navbarTitle" onClick={() => navigate("/dashboard")}>DocuFlow</a>
             </Col>
             {/* Hamburger icon for mobile */}
             <div className="d-xl-none d-flex align-items-center">
