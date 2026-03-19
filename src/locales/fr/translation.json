@@ -161,6 +161,8 @@
     "REF_DEVIS_ABSENTE": "Devis",
     "yes": "Oui",
     "no": "Non",
+    "loadingDocuments": "Chargement des documents...",
+    "documentsLoaded": "Chargement terminé",
 
     "suppliersAtRisk": "Fournisseurs à risque",
     "topAnomalies": "Top anomalies",

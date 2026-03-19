@@ -12,6 +12,8 @@ import { faFileImport, faFileCirclePlus } from '@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
 import { apiClient } from '../../helpers/apiHelper';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const DOCUMENT_SLOTS = [
     { key: 'devis', documentType: 'devis', labelKey: 'devis' },
@@ -22,6 +24,7 @@ const DOCUMENT_SLOTS = [
 export default function AddDocument() {
 
     const { t } = useTranslation()
+    const navigate = useNavigate();
 
     /* ---------------------------------------------------------- */
 
@@ -96,9 +99,9 @@ export default function AddDocument() {
                             'Content-Type': 'multipart/form-data',
                         },
                     });
-
                     return [slot.key, response?.data ?? null];
                 })
+
             );
 
             setUploadResults(Object.fromEntries(results));
@@ -106,6 +109,8 @@ export default function AddDocument() {
             setError(t('uploadError'));
         } finally {
             setUploading(false);
+            toast.success(t('uploadSuccess'));
+            navigate('/documents/')
         }
     };
 
@@ -225,6 +230,7 @@ export default function AddDocument() {
                     </Card>
                 </Col>
             </Row>
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored" />
         </Container>
     );
 }

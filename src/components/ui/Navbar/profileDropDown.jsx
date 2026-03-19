@@ -37,7 +37,6 @@ export default function ProfileDropDown() {
       dispatch({ type: 'RESET_STORE' });
       
     } catch (error) {
-      console.error('Error during logout:', error);
       alert('Logout failed. Please try again.');
     }
   }
@@ -49,8 +48,6 @@ export default function ProfileDropDown() {
             <FontAwesomeIcon icon={faUser} className="dropDown-Icon" />
           </DropdownToggle>
         <DropdownMenu >
-          <DropdownItem onClick={() => {Navigate('/settings')}}>Parametres</DropdownItem>
-          <DropdownItem divider />
           <DropdownItem onClick={() => {handleLogout()}}>Logout</DropdownItem>
         </DropdownMenu>
       </Dropdown>

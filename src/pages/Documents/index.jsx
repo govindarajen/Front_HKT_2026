@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { getCleanDocumentsRequest, getCuratedDocumentsRequest, getRawDocumentsRequest } from '../../redux/documents/documentsReducer';
 import TableList from '../../components/ui/tables/TableList';
 import { apiClient } from '../../helpers/apiHelper';
+import { ToastContainer, toast} from 'react-toastify';
 // Importer et configurer la locale française
 registerLocale('fr', fr);
 
@@ -69,6 +70,32 @@ export function Documents() {
         dispatch(getRawDocumentsRequest());
 
     }, [user?.enterpriseId] );
+
+    useEffect(() => {
+        // Show loading toast
+        const toastId = toast.loading(t('loadingDocuments'), {
+            autoClose: false,
+            closeButton: false,
+            position: 'top-right',
+        });
+
+        const timeoutId = setTimeout(async () => {
+            await dispatch(getCuratedDocumentsRequest());
+            // Update toast to done
+            toast.update(toastId, {
+                render: t('documentsLoaded'),
+                type: 'success',
+                autoClose: 2000,
+                closeButton: true,
+                isLoading: false,
+            });
+        }, 3000);
+
+        return () => {
+            clearTimeout(timeoutId);
+            toast.dismiss(toastId);
+        };
+    }, [location]);
 
 
 
@@ -153,7 +180,6 @@ export function Documents() {
             a.remove();
             URL.revokeObjectURL(url);
         } catch (error) {
-            console.error(error);
         }
     }
 
@@ -248,6 +274,7 @@ export function Documents() {
                     </TabContent>
                 </Col>
             </Row>
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored" />
         </Container>
     );
 }

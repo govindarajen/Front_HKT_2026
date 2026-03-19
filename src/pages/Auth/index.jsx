@@ -60,7 +60,7 @@ export default function Auth() {
                 <Row className='w-100 h-100 p-0'>
                     <Col lg={3} xl={3} className='p-0 d-none d-xl-block'>
                         <div className='authSideBanner h-100 d-flex flex-column justify-content-center align-items-end p-5'>
-                            <h1 className='bannerTitle'>Hackathon</h1>
+                            <h1 className='bannerTitle'>DocuFlow</h1>
                             <p className='bannerText'>{t('authBannerText')}</p>
                         </div>
                     </Col>

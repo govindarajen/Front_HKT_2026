@@ -15,9 +15,11 @@ import {
     Label,
     Row,
     Spinner,
+    Toast,
 } from 'reactstrap';
 import { apiClient } from '../../helpers/apiHelper';
 import { getCleanDocumentsRequest, getCuratedDocumentsRequest, getRawDocumentsRequest } from '../../redux/documents/documentsReducer';
+import { ToastContainer, toast} from 'react-toastify';
 
 const statusOptions = ['queued', 'processing', 'processed', 'needs_validation', 'validated', 'rejected'];
 
@@ -144,6 +146,8 @@ export default function DocumentDetailsModal() {
     useEffect(() => {
         dispatch(getCuratedDocumentsRequest());
     }, [dispatch]);
+
+
 
     useEffect(() => {
         const fetchEnterpriseOwner = async () => {
@@ -499,6 +503,7 @@ export default function DocumentDetailsModal() {
                     </div>
                 );
             })}
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored" />
         </Container>
     );
 };
