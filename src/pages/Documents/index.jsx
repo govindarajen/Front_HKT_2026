@@ -39,6 +39,8 @@ export function Documents() {
     const hasEnterprise = Boolean(user?.enterpriseId?._id || user?.enterpriseId);
 
     const { cleanDocuments, curatedDocuments, rawDocuments } = useSelector((state) => state.documents);
+    const [activeTab, setActiveTab] = useState('1');
+
 
     // Column definitions for different document types
     const rawDocumentColumns = [
@@ -62,6 +64,7 @@ export function Documents() {
         { label: t('dateEmission'), field: 'dateEmission', type: 'date' },
         { label: t('validated'), field: 'validated', type: 'switch' },
         { label: t('status'), field: 'status', type: 'text' },
+        { label: t('fileName'), field: 'rawId.filename', type: 'text' },
     ];
 
     useEffect( () => {
@@ -70,7 +73,7 @@ export function Documents() {
         dispatch(getCuratedDocumentsRequest());
         dispatch(getRawDocumentsRequest());
 
-    }, [user?.enterpriseId, rawDocuments.length] );
+    }, [user?.enterpriseId, rawDocuments.length, activeTab] );
 
     const pathHasUpdateFlag = location?.state?.handleUpdate;
 
@@ -121,12 +124,8 @@ export function Documents() {
                 montantTTC: doc.montantTTC ? `${doc.montantTTC} €` : t('unknown'),
                 status: doc?.validationStatus == "invalid" ? t("youCannotValidate") : t(doc.status),
                 validationStatus: t(doc.validationStatus),
+                createdAt: doc.createdAt ? new Date(doc.createdAt) : null, // Ensure createdAt is a Date object
             }))
-            .sort((a, b) => {
-                if (!a.createdAt) return 1;
-                if (!b.createdAt) return -1;
-                return b.createdAt - a.createdAt;
-            });
             setCuratedFormattedDocuments(formatted);
         }
 
@@ -149,7 +148,6 @@ export function Documents() {
             setRawFormattedDocuments(formatted);
         }
 
-        console.log('Formatted Curated Documents:', "test");
 
     }, [curatedDocuments, cleanDocuments, rawDocuments] );
 
@@ -157,7 +155,6 @@ export function Documents() {
 
 
 
-    const [activeTab, setActiveTab] = useState('1');
 
     const toggleTab = (tab) => {
         if (activeTab !== tab) {

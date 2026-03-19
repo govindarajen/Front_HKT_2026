@@ -72,7 +72,7 @@ const displayValue = (key, value, t) => {
         return t('notAvailable');
     }
 
-    if (['dateEmission', 'dateExpiration', 'dateEcheance', 'validationDate', 'validatedAt', 'uploadDate', 'extractionDate'].includes(key)) {
+    if (['dateEmission', 'dateExpiration', 'dateEcheance', 'validationDate', 'validatedAt', 'uploadDate', 'extractionDate', 'createdAt'].includes(key)) {
         return formatDate(value) || t('notAvailable');
     }
 
@@ -247,7 +247,7 @@ export default function DocumentDetailsModal() {
                     }
 
                     try {
-                        const response = await apiClient.get(`documents/raw/${doc.rawId}`, { responseType: 'blob' });
+                        const response = await apiClient.get(`documents/raw/${doc.rawId?._id}`, { responseType: 'blob' });
                         const mimetype = response?.headers?.['content-type'] || 'application/octet-stream';
                         const url = URL.createObjectURL(new Blob([response.data], { type: mimetype }));
 
@@ -313,7 +313,7 @@ export default function DocumentDetailsModal() {
         } finally {
             setStatusLoadingById((prev) => ({ ...prev, [documentId]: false }));
         }
-    };
+    };  
 
     return (
         <Container fluid className="dashboard-page px-4 py-4 h-100">

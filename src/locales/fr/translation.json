@@ -188,7 +188,7 @@
     "montantHT": "Montant HT",
     "montantTTC": "Montant TTC",
     "dateEmission": "Date d'émission",
-    "dateExpiration": "Date d'échéance",
+    "dateExpiration": "Date d'expiration",
     "anomalies": "Anomalies",
     "validated": "Validé",
     "validationDate": "Date de validation",
@@ -199,6 +199,8 @@
     "needs_validation": "Besoin de validation",
     "rejected": "Rejeté",
     "No enterprise linked to this document": "Aucune entreprise liée à ce document",
+    "fileName": "Nom du fichier",
+    "Unknown": "Inconnu",
 
     "facture_fournisseur": "Facture fournisseur",
     "devis": "Devis",
