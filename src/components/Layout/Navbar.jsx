@@ -58,41 +58,50 @@ export default function NavBar () {
         };
     }, [menuOpen]);
 
+    const [items, setItems] = useState([]);
 
-    const navItems = menuItems.map((item) => {
-        let hasRight = false;
-
-        if (item.rights && item.rights.length > 0) {
-            hasRight = item.rights.some(right => rights.includes(right));
-        } else if (item.rightName) {
-            hasRight = rights.includes(item.rightName);
-        }
-
-        if (rights.includes('*')) {
-            hasRight = true;
-        }
+    useEffect( () => {
         
-        if (!hasRight) return null;
-
-        if (item.name === 'customers' && profession == 'medical') { // check medical profession
-            item.name = 'patients';
-            item.icon = faUserInjured;
-        };
+            const navItems = menuItems.map((item) => {
+                let hasRight = false;
         
-        return (
-            <a
-            key={item.name}
-            className={`navLink p-2${location === item.path ? ' active' : ''}`}
-            onClick={(e) => {
-                e.preventDefault();
-                handleMenuClick(item.path);
-            }}
-            >
-            <FontAwesomeIcon icon={item.icon} className={`me-2 navLink-Icon ${location === item.path ? ' active' : ''}`} />
-            {t(item.name)}
-            </a>
-        );
-    })
+                if (item.rights && item.rights.length > 0) {
+                    hasRight = item.rights.some(right => rights.includes(right));
+                } else if (item.rightName) {
+                    hasRight = rights.includes(item.rightName);
+                }
+        
+                if (rights.includes('*')) {
+                    hasRight = true;
+                }
+                
+                if (!hasRight) return null;
+        
+                if (item.name === 'customers' && profession == 'medical') { // check medical profession
+                    item.name = 'patients';
+                    item.icon = faUserInjured;
+                };
+                
+                return (
+                    <a
+                    key={item.name}
+                    className={`navLink p-2${location === item.path ? ' active' : ''}`}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleMenuClick(item.path);
+                    }}
+                    >
+                    <FontAwesomeIcon icon={item.icon} className={`me-2 navLink-Icon ${location === item.path ? ' active' : ''}`} />
+                    {t(item.name)}
+                    </a>
+                );
+            })
+
+
+            setItems(navItems.filter(item => item !== null));
+
+    }, [rights, location])
+
 
     
 
@@ -114,7 +123,7 @@ export default function NavBar () {
             {/* Desktop menu */}
             <Col className="d-none d-xl-flex justify-content-center align-items-center" xs={12} lg={6}>
                 {
-                    navItems
+                    items
                 }
             </Col>
             <div className="d-none d-xl-flex justify-content-end w-25">
@@ -129,7 +138,7 @@ export default function NavBar () {
                 <div className="mobileMenuOverlay">
                     <div className="mobileMenu" ref={menuRef}>
                             {
-                                navItems
+                                items
                             }
                         <div className="mobileProfileDropDown mt-3">
                             <ProfileDropDown />

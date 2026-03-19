@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { apiClient } from '../../helpers/apiHelper';
 import { loginRequest, loginSuccess, loginFailure, registerRequest, registerSuccess, registerFailure, getUsersRequest, getUsersSuccess, getUsersFailure, setLogout } from './userReducer';
-
+import { persistor } from '../store';
 function* loginSaga(action) {
     try {
         const { username, password, navigate } = action.payload;
@@ -44,9 +44,11 @@ function* registerSaga(action) {
 
 
 function* logoutSaga() {
-    // Remove token and clear localStorage
+    // Remove token and clear only user-related data from localStorage
     localStorage.removeItem('token');
-    localStorage.clear();
+    localStorage.removeItem('persist:user'); // Remove only user slice if using redux-persist
+    // Optionally clear other user-specific keys
+    yield persistor.flush(); // Ensure state is written before logout
     window.location.reload(); // Reload the page to reset the state
     // Optionally, redirect or perform other side effects
 }

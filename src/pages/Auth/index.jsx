@@ -16,11 +16,11 @@ export default function Auth() {
     const { t } = useTranslation();
     const [isRegisterMode, setIsRegisterMode] = useState(false);
     const [isEnterpriseOwner, setIsEnterpriseOwner] = useState(false);
-    const {error} = useSelector((state) => state.account);
+    const {error, value} = useSelector((state) => state.account);
     const loading = useSelector((state) => state.account.loading);
     
     const handleLogin = (username, password) => {
-        dispatch(loginRequest({ username, password, navigate }));
+        dispatch(loginRequest({ username, password }));
     }
 
     const handleRegister = ({ username, password, fullName }) => {
@@ -29,9 +29,15 @@ export default function Auth() {
             password,
             fullName,
             isEnterpriseOwner,
-            navigate,
         }));
     }
+
+    // Navigate after successful login/register
+    useEffect(() => {
+        if (value && value.username && !loading) {
+            navigate('/dashboard');
+        }
+    }, [value, loading, navigate]);
 
     useEffect( () => {
         if (error) {
@@ -54,7 +60,7 @@ export default function Auth() {
                 <Row className='w-100 h-100 p-0'>
                     <Col lg={3} xl={3} className='p-0 d-none d-xl-block'>
                         <div className='authSideBanner h-100 d-flex flex-column justify-content-center align-items-end p-5'>
-                            <h1 className='bannerTitle'>DocuFlow</h1>
+                            <h1 className='bannerTitle'>Hackathon</h1>
                             <p className='bannerText'>{t('authBannerText')}</p>
                         </div>
                     </Col>
