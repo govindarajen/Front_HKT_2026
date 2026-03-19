@@ -110,7 +110,7 @@ export default function AddDocument() {
         } finally {
             setUploading(false);
             toast.success(t('uploadSuccess'));
-            navigate('/documents/')
+            navigate('/documents/', { state: { handleUpdate: true } });
         }
     };
 

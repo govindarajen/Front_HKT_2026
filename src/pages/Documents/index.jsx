@@ -17,7 +17,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import fr from 'date-fns/locale/fr';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { getCleanDocumentsRequest, getCuratedDocumentsRequest, getRawDocumentsRequest } from '../../redux/documents/documentsReducer';
 import TableList from '../../components/ui/tables/TableList';
 import { apiClient } from '../../helpers/apiHelper';
@@ -31,6 +31,7 @@ export function Documents() {
 
     const { t } = useTranslation()
     const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.account.value);
@@ -69,10 +70,16 @@ export function Documents() {
         dispatch(getCuratedDocumentsRequest());
         dispatch(getRawDocumentsRequest());
 
-    }, [user?.enterpriseId] );
+    }, [user?.enterpriseId, rawDocuments.length] );
+
+    const pathHasUpdateFlag = location?.state?.handleUpdate;
 
     useEffect(() => {
         // Show loading toast
+
+        if (!pathHasUpdateFlag) {
+            return;
+        }
         const toastId = toast.loading(t('loadingDocuments'), {
             autoClose: false,
             closeButton: false,
@@ -89,13 +96,13 @@ export function Documents() {
                 closeButton: true,
                 isLoading: false,
             });
-        }, 3000);
+        }, 10000);
 
         return () => {
             clearTimeout(timeoutId);
             toast.dismiss(toastId);
         };
-    }, [location]);
+    }, [pathHasUpdateFlag]);
 
 
 
@@ -106,7 +113,7 @@ export function Documents() {
 
     useEffect( () => {
 
-        if (curatedDocuments && curatedDocuments.length > 0) {
+        if (curatedDocuments ) {
             const formatted = curatedDocuments
             .map(doc => ({
                 ...doc,
@@ -125,7 +132,7 @@ export function Documents() {
         }
 
 
-        if (cleanDocuments &&  cleanDocuments.length > 0) {
+        if (cleanDocuments) {
             const formatted = cleanDocuments.map(doc => ({
                 ...doc,
                 extractionDate: doc.extractionDate ? new Date(doc.extractionDate) : null,
@@ -134,7 +141,7 @@ export function Documents() {
             setCleanFormattedDocuments(formatted);
         }
 
-        if (rawDocuments &&  rawDocuments.length > 0) {
+        if (rawDocuments) {
             const formatted = rawDocuments.map(doc => ({
                 ...doc,
                 uploadDate: doc.uploadDate ? new Date(doc.uploadDate) : null,
@@ -142,6 +149,8 @@ export function Documents() {
             }));
             setRawFormattedDocuments(formatted);
         }
+
+        console.log('Formatted Curated Documents:', "test");
 
     }, [curatedDocuments, cleanDocuments, rawDocuments] );
 
