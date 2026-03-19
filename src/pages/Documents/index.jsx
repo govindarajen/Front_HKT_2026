@@ -113,9 +113,8 @@ export function Documents() {
 
     useEffect( () => {
 
-        if (curatedDocuments ) {
-            const formatted = curatedDocuments
-            .map(doc => ({
+        if (curatedDocuments  && curatedDocuments.length > 0) {
+            const formatted = curatedDocuments?.map(doc => ({
                 ...doc,
                 detectedType: t(doc.detectedType),
                 dateEmission: doc.dateEmission ? new Date(doc.dateEmission) : null,
@@ -132,8 +131,8 @@ export function Documents() {
         }
 
 
-        if (cleanDocuments) {
-            const formatted = cleanDocuments.map(doc => ({
+        if (cleanDocuments && cleanDocuments.length > 0) {
+            const formatted = cleanDocuments?.map(doc => ({
                 ...doc,
                 extractionDate: doc.extractionDate ? new Date(doc.extractionDate) : null,
                 status: t(doc.status),
@@ -141,8 +140,8 @@ export function Documents() {
             setCleanFormattedDocuments(formatted);
         }
 
-        if (rawDocuments) {
-            const formatted = rawDocuments.map(doc => ({
+        if (rawDocuments && rawDocuments.length > 0) {
+            const formatted = rawDocuments?.map(doc => ({
                 ...doc,
                 uploadDate: doc.uploadDate ? new Date(doc.uploadDate) : null,
                 status: t(doc.status),
